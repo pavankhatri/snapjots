@@ -26,8 +26,18 @@ export const setData = async (key: string, value: string) => {
 export const getData = async (key: string) => {
   try {
     const value = await AsyncStorage.getItem(key);
-    console.log(value,"value")
     return value ? JSON.parse(value) : null;
+  } catch (error) {
+    console.error('Error getting data:', error);
+    return null;
+  }
+};
+
+// Function to Delete data from AsyncStorage
+export const deleteData = async (key: string, value: string) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch (error) {
     console.error('Error getting data:', error);
     return null;

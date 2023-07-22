@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import {DeleteIcon, EditIcon} from '../../assets';
 import {styles} from '../../styles/NoteItem';
 
-export const NoteItem = ({title, description}: any) => {
-  console.log(description, 'description');
+export const NoteItem = ({title, description, onDelete}: any) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -18,6 +17,18 @@ export const NoteItem = ({title, description}: any) => {
     return description;
   };
 
+  const handleDeleteNote = () => {
+    Alert.alert(
+      'Delete Note',
+      'Are you sure you want to delete this note?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {text: 'Delete', style: 'destructive', onPress: () => onDelete(title)},
+      ],
+      {cancelable: true},
+    );
+  };
+
   return (
     <View style={styles.noteContainer}>
       <View style={styles.secNoteContainer}>
@@ -27,8 +38,7 @@ export const NoteItem = ({title, description}: any) => {
             onPress={() => console.log('Edit Functionality add')}>
             <Image source={EditIcon} style={styles.imageContainer} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => console.log('Edit Functionality add')}>
+          <TouchableOpacity onPress={handleDeleteNote}>
             <Image source={DeleteIcon} style={styles.imageContainer} />
           </TouchableOpacity>
         </View>
@@ -43,7 +53,7 @@ export const NoteItem = ({title, description}: any) => {
           {getDescriptionText()}
         </Text>
       )}
-      {getDescriptionText().length > 10 && (
+      {getDescriptionText()?.length > 25 && (
         <TouchableOpacity onPress={toggleExpansion}>
           <Text style={styles.readMoreButton}>
             {isExpanded ? 'Read Less' : 'Read More'}
