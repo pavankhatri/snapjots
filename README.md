@@ -66,41 +66,43 @@ cd android && ./gradlew clean && cd ..
 
 Please ensure that your development environment meets the following requirements: ( if you face any error )
 
-# Node.js version: v19.4.0
-# Java version: 20.0.1 (as of 2023-04-18)
-# npm version: 9.2.0
-# Yarn version: 1.22.19
+Node.js version: v19.4.0
+Java version: 20.0.1 (as of 2023-04-18)
+npm version: 9.2.0
+Yarn version: 1.22.19
 
 ## App Functionality
 
 SnapJots provides the following features:
 
-# Welcome Page: 
+Welcome Page: 
 Upon opening the app, users will see a welcome page with the app name "SnapJots."
 
-# Notes Gallery: 
+Notes Gallery: 
 After clicking the "Start" button on the welcome page, users will be taken to the Notes Gallery page.
 
-# Create Notes: 
+Create Notes: 
 If the user doesn't have any notes initially, they can click on the "Create Notes" button, which will take them to the Notes Manager page.
 
-# Notes Manager: 
+Notes Manager: 
 In the Notes Manager page, users will find a text field where they can enter the title and description of their notes.
 
-# Submitting Notes: 
+Submitting Notes: 
 After filling in the required information, users can click the "Submit" button. If any field is left empty, an error message will be displayed, prompting the user to fill in all the required fields.
 
-# Success Popup: 
+Success Popup: 
 Upon successful submission, a popup will appear, confirming that the notes have been added. Clicking the "OK" button in the popup will take the user back to the Notes Gallery page, where they will see their newly added notes.
 
-# Edit and Delete: 
+Edit and Delete: 
 Users have the ability to edit and delete their notes using the respective buttons.
 
-# Search Feature: 
+Search Feature: 
 SnapJots includes a search bar that allows users to search for specific notes.
 
-# Offline Support: 
+Offline Support: 
 Notes are saved locally on the user's device, so an internet connection is not required to access them.
+
+### Thank You !!!
 
 
 
