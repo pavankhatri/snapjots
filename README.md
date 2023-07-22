@@ -79,30 +79,39 @@ Yarn version: 1.22.19
 SnapJots provides the following features:
 
 Welcome Page: 
+
 Upon opening the app, users will see a welcome page with the app name "SnapJots."
 
 Notes Gallery: 
+
 After clicking the "Start" button on the welcome page, users will be taken to the Notes Gallery page.
 
 Create Notes: 
+
 If the user doesn't have any notes initially, they can click on the "Create Notes" button, which will take them to the Notes Manager page.
 
 Notes Manager: 
+
 In the Notes Manager page, users will find a text field where they can enter the title and description of their notes.
 
 Submitting Notes: 
+
 After filling in the required information, users can click the "Submit" button. If any field is left empty, an error message will be displayed, prompting the user to fill in all the required fields.
 
 Success Popup: 
+
 Upon successful submission, a popup will appear, confirming that the notes have been added. Clicking the "OK" button in the popup will take the user back to the Notes Gallery page, where they will see their newly added notes.
 
 Edit and Delete: 
+
 Users have the ability to edit and delete their notes using the respective buttons.
 
 Search Feature: 
+
 SnapJots includes a search bar that allows users to search for specific notes.
 
 Offline Support: 
+
 Notes are saved locally on the user's device, so an internet connection is not required to access them.
 
 ### Thank You !!!
