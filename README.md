@@ -67,8 +67,11 @@ cd android && ./gradlew clean && cd ..
 Please ensure that your development environment meets the following requirements: ( if you face any error )
 
 Node.js version: v19.4.0
+
 Java version: 20.0.1 (as of 2023-04-18)
+
 npm version: 9.2.0
+
 Yarn version: 1.22.19
 
 ## App Functionality
