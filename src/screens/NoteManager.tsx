@@ -78,10 +78,13 @@ const NoteManager = ({route, navigation}: Props) => {
             onPress: () => navigation.goBack(),
           },
         ]);
-        reset({
-          notesTitle: '',
-          notesDescription: '',
-        });
+        // setTimeout Added For IOS
+        setTimeout(() => {
+          reset({
+            notesTitle: '',
+            notesDescription: '',
+          });
+        }, 2000); 
       } else {
         Alert.alert('Error', 'Failed to store data.');
       }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, ImageBackground, FlatList, Text} from 'react-native';
+import {View, ImageBackground, FlatList, Text, TextInput} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 import Header from '../components/common/Header';
@@ -12,8 +12,8 @@ import {NotesData} from '../types';
 
 const NoteGallery = () => {
   const navigation = useNavigation();
-
   const [storedData, setStoredData] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     // Load data from AsyncStorage when the component mounts
@@ -22,6 +22,7 @@ const NoteGallery = () => {
     // Add a focus event listener to load data when the screen gains focus
     const unsubscribeFocus = navigation.addListener('focus', () => {
       loadData();
+      setSearchQuery('');
     });
     // Clean up the event listener when the component is unmounted
     return () => {
@@ -42,14 +43,33 @@ const NoteGallery = () => {
     await deleteData('@snapjots:Notes', data);
   };
 
-  const handleDeleteNote = (title: NotesData) => {
-    let data = storedData.filter((item: any) => item.notesTitle !== title);
+  const handleDeleteNote = async (title: NotesData) => {
+    const oldData = await getData('@snapjots:Notes');
+    let data = oldData.filter((item: any) => item.notesTitle !== title);
     deleteDataFromAsyncStorage(data);
     setStoredData(data);
+    setSearchQuery('');
   };
 
   const handleEditNote = (note: NotesData) => {
     navigation.navigate('NoteManager', note);
+  };
+
+  const handleSearch = () => {
+    if (!searchQuery) {
+      // If search query is empty, load the original data from AsyncStorage
+      loadData();
+    } else {
+      // Filter data based on searchQuery in both notesTitle and notesDescription
+      const filteredData = storedData.filter(
+        (item: NotesData) =>
+          item.notesTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.notesDescription
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase()),
+      );
+      setStoredData(filteredData);
+    }
   };
 
   return (
@@ -59,7 +79,24 @@ const NoteGallery = () => {
         resizeMode="cover"
         style={styles.image}>
         <Header title={'Note Gallery'} />
-        {storedData ? (
+        {storedData?.length !== 0 ? (
+          <View style={styles.searchContainer}>
+            <TextInput
+              placeholder="Search"
+              placeholderTextColor="white"
+              value={searchQuery}
+              onChangeText={text => setSearchQuery(text)}
+              style={styles.searchInput}
+            />
+            <Button
+              title="Search"
+              onPress={handleSearch}
+              style={styles.searchButtonStyle}
+              buttonTextStyle={styles.searchButtonTextStyle}
+            />
+          </View>
+        ) : null}
+        {storedData?.length !== 0 ? (
           <FlatList
             data={storedData}
             renderItem={({item}: any) => (

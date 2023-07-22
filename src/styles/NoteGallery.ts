@@ -31,4 +31,31 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     marginTop: 30,
   },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignSelf: 'center',
+    width: '95%',
+    margin: 10,
+  },
+  searchInput: {
+    flex: 1,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 15,
+    position: 'absolute',
+    backgroundColor: 'grey',
+    padding: 15,
+    fontSize: 18,
+  },
+  searchButtonStyle: {
+    margin: 10,
+    backgroundColor: '#7B27D8',
+    borderRadius: 15,
+  },
+  searchButtonTextStyle: {
+    fontSize: 15,
+    padding: 3,
+  },
 });
