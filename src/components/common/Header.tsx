@@ -1,9 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-
-interface HeaderProps {
-  title: string;
-}
+import {HeaderProps} from '../../types';
 
 const Header = ({title}: HeaderProps) => {
   return (

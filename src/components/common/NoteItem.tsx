@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, Image, Alert} from 'react-native';
 import {DeleteIcon, EditIcon} from '../../assets';
 import {styles} from '../../styles/NoteItem';
 
-export const NoteItem = ({title, description, onDelete}: any) => {
+export const NoteItem = ({title, description, onDelete, onEdit}: any) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -29,13 +29,20 @@ export const NoteItem = ({title, description, onDelete}: any) => {
     );
   };
 
+  const handleEditNote = () => {
+    const editData = {
+      notesTitle: title,
+      notesDescription: description,
+    };
+    onEdit(editData);
+  };
+
   return (
     <View style={styles.noteContainer}>
       <View style={styles.secNoteContainer}>
         <Text style={styles.noteTitle}>{title}</Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => console.log('Edit Functionality add')}>
+          <TouchableOpacity onPress={handleEditNote}>
             <Image source={EditIcon} style={styles.imageContainer} />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleDeleteNote}>

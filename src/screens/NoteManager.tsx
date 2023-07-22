@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   ImageBackground,
@@ -15,14 +15,10 @@ import Header from '../components/common/Header';
 import {NoteCreate} from '../assets';
 import {styles} from '../styles/NoteManager';
 import ErrorMessage from '../components/common/ErrorMessage';
-import { setData } from '../services/StorageService';
+import {deleteData, getData, setData} from '../services/StorageService';
+import {NotesData, Props} from '../types';
 
-interface NotesData {
-  notesTitle: string;
-  notesDescription: string;
-}
-
-const NoteManager = () => {
+const NoteManager = ({route, navigation}: Props) => {
   const {
     control,
     handleSubmit,
@@ -37,17 +33,74 @@ const NoteManager = () => {
   });
 
   const onSubmit = async (data: NotesData) => {
-    const success = await setData('@snapjots:Notes', data);
-    if (success) {
-      Alert.alert('Success', 'Data stored successfully!');
-      reset({
-        notesTitle: '',
-        notesDescription: '',
-      });
+    if (route.params?.notesTitle) {
+      // Retrieve the entire list of notes from AsyncStorage
+      const existingNotes = await getData('@snapjots:Notes');
+
+      if (existingNotes) {
+        // Find the index of the note to be edited in the existing notes array
+        const editIndex = existingNotes.findIndex(
+          (note: NotesData) => note.notesTitle === route.params.notesTitle,
+        );
+
+        if (editIndex !== -1) {
+          // Create a new updated note with the edited data
+          const updatedNote = {
+            ...route.params, // Existing note data
+            notesTitle: data.notesTitle, // Update notesTitle with new value
+            notesDescription: data.notesDescription, // Update notesDescription with new value
+          };
+          // Update the note in the existing notes array
+          existingNotes[editIndex] = updatedNote;
+
+          // Update the entire list of notes in AsyncStorage
+          const success = await deleteData('@snapjots:Notes', existingNotes);
+
+          if (success) {
+            Alert.alert('Success', 'Note updated successfully!');
+            navigation.goBack(); // Go back to NoteGallery after editing
+          } else {
+            Alert.alert('Error', 'Failed to update note.');
+          }
+        } else {
+          Alert.alert('Error', 'Note not found in the list.');
+        }
+      } else {
+        Alert.alert('Error', 'Failed to retrieve existing notes.');
+      }
     } else {
-      Alert.alert('Error', 'Failed to store data.');
+      const success = await setData('@snapjots:Notes', data);
+      if (success) {
+        Alert.alert('Success', 'Data stored successfully!', [
+          {
+            text: 'OK',
+            style: 'destructive',
+            onPress: () => navigation.goBack(),
+          },
+        ]);
+        reset({
+          notesTitle: '',
+          notesDescription: '',
+        });
+      } else {
+        Alert.alert('Error', 'Failed to store data.');
+      }
     }
   };
+
+  useEffect(() => {
+    // Reset the form when navigating back to NoteManager
+    const unsubscribe = navigation.addListener('focus', () => {
+      reset({
+        notesTitle: route.params?.notesTitle || '', // Pre-fill with existing note's title if available
+        notesDescription: route.params?.notesDescription || '', // Pre-fill with existing note's description if available
+      });
+    });
+    // Clean up the listener when the component is unmounted
+    return () => {
+      unsubscribe();
+    };
+  }, [navigation, reset, route.params]);
 
   return (
     <View style={styles.container}>

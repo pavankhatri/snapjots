@@ -8,6 +8,7 @@ import {NoteGalleryImage} from '../assets';
 import {styles} from '../styles/NoteGallery';
 import {deleteData, getData} from '../services/StorageService';
 import {NoteItem} from '../components/common/NoteItem';
+import {NotesData} from '../types';
 
 const NoteGallery = () => {
   const navigation = useNavigation();
@@ -37,14 +38,18 @@ const NoteGallery = () => {
     navigation.navigate('NoteManager');
   };
 
-  const deleteDataFromAsyncStorage = async (data: any) => {
+  const deleteDataFromAsyncStorage = async (data: NotesData) => {
     await deleteData('@snapjots:Notes', data);
   };
 
-  const handleDeleteNote = (title: any) => {
+  const handleDeleteNote = (title: NotesData) => {
     let data = storedData.filter((item: any) => item.notesTitle !== title);
     deleteDataFromAsyncStorage(data);
     setStoredData(data);
+  };
+
+  const handleEditNote = (note: NotesData) => {
+    navigation.navigate('NoteManager', note);
   };
 
   return (
@@ -62,6 +67,7 @@ const NoteGallery = () => {
                 title={item?.notesTitle}
                 description={item?.notesDescription}
                 onDelete={handleDeleteNote}
+                onEdit={handleEditNote}
               />
             )}
             keyExtractor={(item, index) => index.toString()}

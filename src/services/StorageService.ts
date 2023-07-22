@@ -1,9 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NotesData} from '../types';
 
 // Function to set data in AsyncStorage
-export const setData = async (key: string, value: string) => {
+export const setData = async (key: string, value: NotesData) => {
   try {
-    const existingNotes: any = await AsyncStorage.getItem(key);
+    const existingNotes = await AsyncStorage.getItem(key);
     let notesArray;
     if (existingNotes === null) {
       notesArray = [value]; // Create a new array with the single value
@@ -34,7 +35,7 @@ export const getData = async (key: string) => {
 };
 
 // Function to Delete data from AsyncStorage
-export const deleteData = async (key: string, value: string) => {
+export const deleteData = async (key: string, value: NotesData) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
     return true;
